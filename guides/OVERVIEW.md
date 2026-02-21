@@ -1,6 +1,6 @@
 # Guides Hub Overview
 
-The Guides Hub provides step-by-step tutorials for common development tasks in the ML2 system. Each guide walks through the complete process from start to finish.
+The Guides Hub provides step-by-step tutorials for common development tasks in the Application system. Each guide walks through the complete process from start to finish.
 
 ## Available Guides
 

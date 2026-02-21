@@ -1,6 +1,6 @@
 # API Development
 
-ML2 provides both internal APIs for the application and external API clients for third-party services. This guide covers both creating API endpoints and consuming external APIs.
+Application provides both internal APIs for the application and external API clients for third-party services. This guide covers both creating API endpoints and consuming external APIs.
 
 ## Overview
 
@@ -91,9 +91,9 @@ API clients live in `App/Data/Clients/` and wrap HTTP calls to external services
 <?php
 declare(strict_types=1);
 
-namespace MemorizeLive\App\Data\Clients;
+namespace Application\App\Data\Clients;
 
-use MemorizeLive\App\Data\HttpClient;
+use Application\App\Data\HttpClient;
 
 class MyApiClient {
     private HttpClient $httpClient;
@@ -133,7 +133,7 @@ class MyApiClient {
 Base HTTP client for making requests:
 
 ```php
-use MemorizeLive\App\Data\HttpClient;
+use Application\App\Data\HttpClient;
 
 $client = new HttpClient('https://api.example.com', 30);
 

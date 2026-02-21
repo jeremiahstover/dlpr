@@ -138,7 +138,7 @@ These controllers were already following the correct pattern:
 The `AccessHelper::isOwnerOrAdmin()` method centralizes owner-or-admin checks:
 
 ```php
-use MemorizeLive\App\Logic\Helpers\AccessHelper;
+use Application\App\Logic\Helpers\AccessHelper;
 
 // Default owner field: 'user_id'
 AccessHelper::isOwnerOrAdmin($resource, $userId, $isAdmin);

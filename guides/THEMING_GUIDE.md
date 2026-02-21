@@ -1,10 +1,10 @@
 # Theming Guide
 
-This guide explains how to create, customize, and manage themes in ML2.
+This guide explains how to create, customize, and manage themes in the Application.
 
 ## Overview
 
-ML2 uses a simple theme system based on CSS files. Themes control the visual appearance of the application including colors, typography, spacing, and layout.
+Application uses a simple theme system based on CSS files. Themes control the visual appearance of the application including colors, typography, spacing, and layout.
 
 **Key Concepts:**
 - **Theme CSS Files**: Located in `Public/Assets/css/`
@@ -16,8 +16,8 @@ ML2 uses a simple theme system based on CSS files. Themes control the visual app
 
 | Theme | File | Description |
 |-------|------|-------------|
-| **ml2** | `ml2-theme.css` | Modern, clean design (default) |
-| **original** | `original-theme.css` | Classic ML2 appearance |
+| **application** | `default-theme.css` | Modern, clean design (default) |
+| **original** | `original-theme.css` | Classic Application appearance |
 | **crgslst** | `crgslst-theme.css` | Craigslist-style minimal design |
 | **dark** | `dark-theme.css` | Dark mode variant |
 
@@ -63,7 +63,7 @@ brand, menu, container, toolbar {
 
 ### Custom Semantic Elements
 
-ML2 uses custom HTML elements for layout:
+Application uses custom HTML elements for layout:
 
 ```css
 /* Brand/Logo area */
@@ -267,7 +267,7 @@ Edit existing theme files:
 
 ```bash
 # Edit the active theme
-vim Public/Assets/css/ml2-theme.css
+vim Public/Assets/css/default-theme.css
 ```
 
 **Note**: Changes apply immediately (no build step required).

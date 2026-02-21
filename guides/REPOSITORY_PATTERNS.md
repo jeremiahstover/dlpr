@@ -4,7 +4,7 @@ Repositories encapsulate data access logic, providing a clean API for querying a
 
 ## Overview
 
-Repositories in ML2 follow these principles:
+Repositories in Application follow these principles:
 - **Single Table**: Each repository handles one database table
 - **PDO Access**: Direct PDO usage for queries
 - **Row Mapping**: Convert database rows to domain arrays
@@ -32,7 +32,7 @@ App/Data/Repositories/
 <?php
 declare(strict_types=1);
 
-namespace MemorizeLive\App\Data\Repositories;
+namespace Application\App\Data\Repositories;
 
 class MyRepository {
     private \PDO $pdo;
@@ -240,7 +240,7 @@ touch App/Data/Repositories/MyRepository.php
 <?php
 declare(strict_types=1);
 
-namespace MemorizeLive\App\Data\Repositories;
+namespace Application\App\Data\Repositories;
 
 class MyRepository {
     private \PDO $pdo;
@@ -370,7 +370,7 @@ public function transfer(int $fromId, int $toId, float $amount): bool {
 <?php
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use MemorizeLive\App\Data\Repositories\MyRepository;
+use Application\App\Data\Repositories\MyRepository;
 
 // Create in-memory database
 $pdo = new PDO('sqlite::memory:');

@@ -4,7 +4,7 @@ Controllers handle HTTP requests, orchestrate business logic, and return respons
 
 ## Overview
 
-Controllers in ML2 follow these principles:
+Controllers in Application follow these principles:
 - **Single Responsibility**: Each controller handles one resource (Studies, Users, etc.)
 - **Dependency Injection**: Services are injected via constructor
 - **Request/Response**: Accept request arrays, return ResponseBuilder arrays
@@ -29,11 +29,11 @@ App/Routes/Controllers/
 <?php
 declare(strict_types=1);
 
-namespace MemorizeLive\App\Routes\Controllers;
+namespace Application\App\Routes\Controllers;
 
-use MemorizeLive\App\Logic\Helpers\ResponseBuilder;
-use MemorizeLive\App\Logic\Services\MyService;
-use MemorizeLive\App\Logic\Helpers\ConfigManager;
+use Application\App\Logic\Helpers\ResponseBuilder;
+use Application\App\Logic\Services\MyService;
+use Application\App\Logic\Helpers\ConfigManager;
 
 class MyController {
     
@@ -178,7 +178,7 @@ Add your controller to the `instantiateController()` method:
 
 ```php
 private function instantiateController(string $className): object {
-    $fullClass = "MemorizeLive\\App\\Routes\\Controllers\\{$className}";
+    $fullClass = "Application\\App\\Routes\\Controllers\\{$className}";
     
     return match ($className) {
         'MyController' => new $fullClass(
@@ -226,11 +226,11 @@ touch App/Routes/Controllers/MyFeatureController.php
 <?php
 declare(strict_types=1);
 
-namespace MemorizeLive\App\Routes\Controllers;
+namespace Application\App\Routes\Controllers;
 
-use MemorizeLive\App\Logic\Helpers\ResponseBuilder;
-use MemorizeLive\App\Logic\Services\MyFeatureService;
-use MemorizeLive\App\Logic\Helpers\ConfigManager;
+use Application\App\Logic\Helpers\ResponseBuilder;
+use Application\App\Logic\Services\MyFeatureService;
+use Application\App\Logic\Helpers\ConfigManager;
 
 class MyFeatureController {
     
@@ -360,9 +360,9 @@ if (!$result->isSuccess()) {
 <?php
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-use MemorizeLive\App\Routes\Controllers\MyController;
-use MemorizeLive\App\Logic\Services\MyService;
-use MemorizeLive\App\Logic\Helpers\ConfigManager;
+use Application\App\Routes\Controllers\MyController;
+use Application\App\Logic\Services\MyService;
+use Application\App\Logic\Helpers\ConfigManager;
 
 // Mock services
 $mockService = new class extends MyService {

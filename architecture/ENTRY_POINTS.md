@@ -1,6 +1,6 @@
 # System Entry Points
 
-This document provides a deep-dive into the entry point logic of the ML2 application, focusing on how `Public/index.php` functions as the "Traffic Cop" that routes incoming requests to the appropriate handlers based on URI type classification.
+This document provides a deep-dive into the entry point logic of the Application application, focusing on how `Public/index.php` functions as the "Traffic Cop" that routes incoming requests to the appropriate handlers based on URI type classification.
 
 ## Overview
 
@@ -12,7 +12,7 @@ The core decision-making logic in `Public/index.php` works as follows:
 
 ```php
 // Public/index.php - Decision Tree
-$router = new MemorizeLive\App\Routes\Router();
+$router = new Application\App\Routes\Router();
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $routeInfo = $router->identifyRouteType($uri);
 $routeType = $routeInfo['type'];
@@ -22,15 +22,15 @@ if ($routeType === 'static') {
     serveStaticFile($uri);
 } elseif ($routeType === 'lite') {
     require_once __DIR__ . '/../App/Lite.php';
-    $lite = new MemorizeLive\App\Lite();
+    $lite = new Application\App\Lite();
     echo $lite->handle($resolvedUri);
 } elseif ($routeType === 'cron') {
     require_once __DIR__ . '/../App/Cron.php';
-    $cron = new MemorizeLive\App\Cron();
+    $cron = new Application\App\Cron();
     echo $cron->run();
 } else {
     require_once __DIR__ . '/../App/App.php';
-    $app = new MemorizeLive\App\App();
+    $app = new Application\App\App();
     echo $app->orchestrate();
 }
 ```

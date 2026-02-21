@@ -1,10 +1,10 @@
 # Static File Serving Security
 
-This document details the security mechanisms implemented in ML2 for serving static files, with a focus on preventing directory traversal attacks and enforcing secure MIME type handling.
+This document details the security mechanisms implemented in Application for serving static files, with a focus on preventing directory traversal attacks and enforcing secure MIME type handling.
 
 ## Overview
 
-ML2 implements several security measures in its static file serving mechanism to prevent common web vulnerabilities, particularly directory traversal attacks and MIME type confusion attacks.
+Application implements several security measures in its static file serving mechanism to prevent common web vulnerabilities, particularly directory traversal attacks and MIME type confusion attacks.
 
 ## Directory Traversal Prevention
 
@@ -44,7 +44,7 @@ Consider an attack attempt with the URI `/../../etc/passwd`:
 
 ## MIME Type Security
 
-ML2 explicitly defines MIME types for static files to prevent browsers from interpreting files incorrectly.
+Application explicitly defines MIME types for static files to prevent browsers from interpreting files incorrectly.
 
 ### Implementation
 

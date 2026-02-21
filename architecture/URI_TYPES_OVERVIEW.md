@@ -2,7 +2,7 @@
 
 ## Overview
 
-The ML2 application classifies incoming requests into five distinct URI types, each with its own processing pipeline and characteristics. This document provides an overview of the classification system.
+The Application application classifies incoming requests into five distinct URI types, each with its own processing pipeline and characteristics. This document provides an overview of the classification system.
 
 ## The Five URI Types
 

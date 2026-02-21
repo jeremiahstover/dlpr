@@ -61,7 +61,7 @@ Use colons to access nested values:
 $config = new ConfigManager();
 
 // Simple key
-$theme = $config->get('app:theme', 'ml2');
+$theme = $config->get('app:theme', 'default');
 
 // Nested key
 $perPage = $config->get('pagination:per_page', 20);
@@ -97,12 +97,12 @@ $value = $config->get('new:feature:enabled', true);
 {
     "database": {
         "host": "localhost",
-        "name": "ml2",
+        "name": "application",
         "user": "app",
         "pass": "secret"
     },
     "app": {
-        "theme": "ml2",
+        "theme": "application",
         "base_url": "https://example.com",
         "debug": false
     },
@@ -153,13 +153,13 @@ The system automatically uses the hostname-specific file if it exists.
 ### Basic Access
 
 ```php
-use MemorizeLive\App\Logic\Helpers\ConfigManager;
+use Application\App\Logic\Helpers\ConfigManager;
 
 $config = new ConfigManager();
 
 // Get with default
 $dbConfig = $config->get('database', []);
-$theme = $config->get('app:theme', 'ml2');
+$theme = $config->get('app:theme', 'default');
 ```
 
 ### In Controllers

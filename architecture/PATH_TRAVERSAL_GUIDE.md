@@ -178,7 +178,7 @@ if (substr($file, -4) === '.txt' && file_exists('/safe/dir/' . $file)) { /* proc
 
 ## Integration with Overall Security Model
 
-Path traversal prevention integrates with ML2's broader security architecture:
+Path traversal prevention integrates with the Application's broader security architecture:
 
 ### Authentication Integration
 
@@ -198,7 +198,7 @@ Path traversal prevention integrates with ML2's broader security architecture:
 - Session validation prevents session fixation attacks affecting file access
 - Secure session handling protects file operation contexts
 
-By implementing these comprehensive path traversal prevention measures, ML2 maintains a strong security posture against one of the most common web application vulnerabilities.
+By implementing these comprehensive path traversal prevention measures, Application maintains a strong security posture against one of the most common web application vulnerabilities.
 
 ---
 

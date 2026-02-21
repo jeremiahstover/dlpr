@@ -1,12 +1,12 @@
 # Custom Autoloader System
 
-This document details the custom autoloader implementation used in the ML2 application, which handles class loading for application code. External dependencies are managed by Composer.
+This document details the custom autoloader implementation used in the Application application, which handles class loading for application code. External dependencies are managed by Composer.
 
 ## Overview
 
-The ML2 application uses two autoloaders:
+The Application application uses two autoloaders:
 1. **Composer's autoloader** - Handles all external dependencies (including Plates)
-2. **Custom autoloader** - Handles application code under `MemorizeLive\App\` namespace
+2. **Custom autoloader** - Handles application code under `Application\App\` namespace
 
 The custom autoloader is registered via `spl_autoload_register()` in `App/App.php` to dynamically load PHP classes when they are first referenced.
 
@@ -17,9 +17,9 @@ The autoloader is registered in `App/App.php` in the `loadAutoloader()` method:
 ```php
 private function loadAutoloader(): void {
     spl_autoload_register(function ($class) {
-        // App code - MemorizeLive\App\*
-        if (strpos($class, 'MemorizeLive\\App\\') === 0) {
-            $path = str_replace('MemorizeLive\\App\\', '', $class);
+        // App code - Application\App\*
+        if (strpos($class, 'Application\\App\\') === 0) {
+            $path = str_replace('Application\\App\\', '', $class);
             $path = str_replace('\\', '/', $path);
             $file = __DIR__ . '/' . $path . '.php';
             
@@ -34,20 +34,20 @@ private function loadAutoloader(): void {
 
 ## Application Code Loading
 
-Application classes under the `MemorizeLive\App\` namespace are loaded from the `App/` directory using direct PSR-4 style mapping:
+Application classes under the `Application\App\` namespace are loaded from the `App/` directory using direct PSR-4 style mapping:
 
-- **Namespace Pattern**: `MemorizeLive\App\{SubNamespace}\{ClassName}`
+- **Namespace Pattern**: `Application\App\{SubNamespace}\{ClassName}`
 - **File Path Mapping**: `App/{SubNamespace}/{ClassName}.php`
 
 **Examples:**
 ```
-Class: MemorizeLive\App\Routes\Router
+Class: Application\App\Routes\Router
 Path:  App/Routes/Router.php
 
-Class: MemorizeLive\App\Logic\Services\StudyService
+Class: Application\App\Logic\Services\StudyService
 Path:  App/Logic/Services/StudyService.php
 
-Class: MemorizeLive\App\Data\Repositories\UserRepository
+Class: Application\App\Data\Repositories\UserRepository
 Path:  App/Data/Repositories/UserRepository.php
 ```
 
@@ -60,13 +60,13 @@ External libraries (like League\Plates) are loaded by Composer's autoloader, not
 require_once __DIR__ . '/../Lib/autoload.php';
 ```
 
-The custom autoloader only handles the `MemorizeLive\App\` namespace. All other namespaces are handled by Composer.
+The custom autoloader only handles the `Application\App\` namespace. All other namespaces are handled by Composer.
 
 ## Namespace Mapping Strategy
 
 | Namespace Prefix | Handler | Directory |
 |-----------------|---------|-----------|
-| `MemorizeLive\App\` | Custom autoloader | `App/` |
+| `Application\App\` | Custom autoloader | `App/` |
 | `League\Plates\` | Composer autoloader | `Lib/league/plates/src/` |
 | All others | Composer autoloader | Various in `Lib/` |
 
@@ -75,9 +75,9 @@ The custom autoloader only handles the `MemorizeLive\App\` namespace. All other 
 When a class is referenced but not yet loaded, the custom autoloader:
 
 1. **Receives the fully qualified class name**
-2. **Checks if it starts with `MemorizeLive\App\`**
+2. **Checks if it starts with `Application\App\`**
 3. **Converts the namespace to a file path:**
-   - Removes the `MemorizeLive\App\` prefix
+   - Removes the `Application\App\` prefix
    - Replaces namespace separators (`\`) with directory separators (`/`)
    - Appends `.php` extension
 4. **Constructs the full file path:** `App/{SubNamespace}/{ClassName}.php`
@@ -129,7 +129,7 @@ This ensures:
 
 The autoloader includes implicit security measures:
 - **Path Restriction**: Only loads files from the `App/` directory
-- **Namespace Validation**: Only processes classes with the `MemorizeLive\App\` prefix
+- **Namespace Validation**: Only processes classes with the `Application\App\` prefix
 - **File Existence Checking**: Prevents inclusion of non-existent files
 
 These measures prevent:

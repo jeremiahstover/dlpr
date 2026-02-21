@@ -4,7 +4,7 @@ System architecture follows the **DLPR** (Data/Logic/Presentation/Routes) patter
 
 ## Core Hubs
 
-ML2 documentation is organized into focused hubs:
+Application documentation is organized into focused hubs:
 
 ### Architecture Hub
 The foundation of the system - pattern definitions, directory structure, and architectural decisions.
@@ -27,7 +27,6 @@ User interface components and presentation layer details.
 - [UI Overview](ui/OVERVIEW.md) - Complete UI system overview
 - [Interface Levels](ui/INTERFACE_LEVELS.md) - Dynamic UI complexity
 - [Themes](ui/THEMES.md) - Visual theme system
-- [Theme Creation](ui/ML2_THEME_CREATION.md) - How to create new themes
 - [Menu System](ui/MENU_SYSTEM.md) - Navigation menu structure
 - [Critical Menu Defenses](ui/CRITICAL_MENU_DEFENSES.md) - Menu security safeguards
 
@@ -147,7 +146,6 @@ This project uses an **Explicit Dependency Pattern**. All dependencies required 
 The system supports multiple interface levels and visual themes, resolved dynamically based on user context.
 
 - **Interface Levels**: [View Levels and Templates](ui/OVERVIEW.md)
-- **Themes**: [Theme Creation Guide](ui/ML2_THEME_CREATION.md)
 
 ## Cron Processing
 

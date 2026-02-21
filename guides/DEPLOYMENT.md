@@ -1,10 +1,10 @@
 # Deployment Guide
 
-This guide covers deploying ML2 to production environments.
+This guide covers deploying Application to production environments.
 
 ## Overview
 
-ML2 is a PHP application that can be deployed to any web server supporting PHP 8.1+. The application uses SQLite for data storage, eliminating the need for a separate database server.
+Application is a PHP application that can be deployed to any web server supporting PHP 8.1+. The application uses SQLite for data storage, eliminating the need for a separate database server.
 
 **Deployment Methods:**
 - **Traditional Hosting**: Apache/Nginx with PHP
@@ -104,15 +104,15 @@ Upload the entire project to your web server:
 ```bash
 # Using rsync
 rsync -avz --exclude='.git' --exclude='Tests' \
-    ./ user@server:/var/www/ml2/
+    ./ user@server:/var/www/application/
 
 # Or using SCP
-scp -r App Data Lib Public user@server:/var/www/ml2/
+scp -r App Data Lib Public user@server:/var/www/application/
 ```
 
 **Directory Structure on Server:**
 ```
-/var/www/ml2/
+/var/www/application/
 ├── App/              # Application code
 ├── Data/             # Database and config
 ├── Lib/              # Dependencies
@@ -127,22 +127,22 @@ scp -r App Data Lib Public user@server:/var/www/ml2/
 WEB_USER=www-data
 
 # Set ownership
-chown -R $WEB_USER:$WEB_USER /var/www/ml2
+chown -R $WEB_USER:$WEB_USER /var/www/application
 
 # Set directory permissions
-find /var/www/ml2 -type d -exec chmod 755 {} \;
+find /var/www/application -type d -exec chmod 755 {} \;
 
 # Set file permissions
-find /var/www/ml2 -type f -exec chmod 644 {} \;
+find /var/www/application -type f -exec chmod 644 {} \;
 
 # Make Data directory writable for SQLite
-chmod 775 /var/www/ml2/Data
-chmod 664 /var/www/ml2/Data/*.db
-chmod 664 /var/www/ml2/Data/*.json
+chmod 775 /var/www/application/Data
+chmod 664 /var/www/application/Data/*.db
+chmod 664 /var/www/application/Data/*.json
 
 # Ensure web user owns database files
-chown $WEB_USER:$WEB_USER /var/www/ml2/Data/*.db
-chown $WEB_USER:$WEB_USER /var/www/ml2/Data/*.json
+chown $WEB_USER:$WEB_USER /var/www/application/Data/*.db
+chown $WEB_USER:$WEB_USER /var/www/application/Data/*.json
 ```
 
 ### Step 3: Configure Web Server
@@ -152,13 +152,13 @@ chown $WEB_USER:$WEB_USER /var/www/ml2/Data/*.json
 Create virtual host:
 
 ```apache
-# /etc/apache2/sites-available/ml2.conf
+# /etc/apache2/sites-available/application.conf
 <VirtualHost *:80>
     ServerName memorize.live
-    DocumentRoot /var/www/ml2/Public
+    DocumentRoot /var/www/application/Public
     
     # Enable rewrite engine
-    <Directory /var/www/ml2/Public>
+    <Directory /var/www/application/Public>
         Options -Indexes +FollowSymLinks
         AllowOverride All
         Require all granted
@@ -170,8 +170,8 @@ Create virtual host:
     php_value memory_limit 256M
     
     # Logging
-    ErrorLog ${APACHE_LOG_DIR}/ml2-error.log
-    CustomLog ${APACHE_LOG_DIR}/ml2-access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/application-error.log
+    CustomLog ${APACHE_LOG_DIR}/application-access.log combined
 </VirtualHost>
 ```
 
@@ -179,7 +179,7 @@ Enable required modules:
 ```bash
 a2enmod rewrite
 a2enmod env
-a2ensite ml2
+a2ensite application
 systemctl restart apache2
 ```
 
@@ -188,11 +188,11 @@ systemctl restart apache2
 Create server block:
 
 ```nginx
-# /etc/nginx/sites-available/ml2
+# /etc/nginx/sites-available/application
 server {
     listen 80;
     server_name memorize.live;
-    root /var/www/ml2/Public;
+    root /var/www/application/Public;
     index index.php;
     
     # Security headers
@@ -238,7 +238,7 @@ server {
 
 Enable configuration:
 ```bash
-ln -s /etc/nginx/sites-available/ml2 /etc/nginx/sites-enabled/
+ln -s /etc/nginx/sites-available/application /etc/nginx/sites-enabled/
 nginx -t
 systemctl restart nginx
 ```
@@ -248,10 +248,10 @@ systemctl restart nginx
 The database will be created automatically on first run. To pre-initialize:
 
 ```bash
-cd /var/www/ml2
+cd /var/www/application
 php -r "
 require_once 'App/Data/Database.php';
-\$db = MemorizeLive\App\Data\Database::getInstance();
+\$db = Application\App\Data\Database::getInstance();
 echo 'Database initialized successfully\n';
 "
 ```
@@ -268,7 +268,7 @@ curl -I https://memorize.live
 curl https://memorize.live/health
 
 # Verify static assets
-curl -I https://memorize.live/Assets/css/ml2-theme.css
+curl -I https://memorize.live/Assets/css/default-theme.css
 ```
 
 ## Post-Deployment Configuration
@@ -301,10 +301,10 @@ Set up automated tasks:
 crontab -e
 
 # Add notification processing every minute
-* * * * * cd /var/www/ml2 && /usr/bin/php Public/index.php /cron/process-notifications >> /var/log/ml2-cron.log 2>&1
+* * * * * cd /var/www/application && /usr/bin/php Public/index.php /cron/process-notifications >> /var/log/application-cron.log 2>&1
 
 # Add daily cleanup (optional)
-0 2 * * * cd /var/www/ml2 && /usr/bin/php -r "require 'App/Data/Database.php'; \$db = MemorizeLive\App\Data\Database::getInstance(); \$db->exec('DELETE FROM notifications WHERE sent = 1 AND created < datetime(\"now\", \"-30 days\")');" >> /var/log/ml2-cleanup.log 2>&1
+0 2 * * * cd /var/www/application && /usr/bin/php -r "require 'App/Data/Database.php'; \$db = Application\App\Data\Database::getInstance(); \$db->exec('DELETE FROM notifications WHERE sent = 1 AND created < datetime(\"now\", \"-30 days\")');" >> /var/log/application-cleanup.log 2>&1
 ```
 
 ### Log Rotation
@@ -312,8 +312,8 @@ crontab -e
 Configure log rotation:
 
 ```bash
-# /etc/logrotate.d/ml2
-/var/log/ml2-*.log {
+# /etc/logrotate.d/application
+/var/log/application-*.log {
     daily
     missingok
     rotate 14
@@ -328,7 +328,7 @@ Configure log rotation:
 
 ### Hostname-Based Config
 
-ML2 supports hostname-specific config files:
+Application supports hostname-specific config files:
 
 ```
 Data/
@@ -368,11 +368,11 @@ SetEnv APP_ENV staging
 
 ```bash
 # Remove write permissions from code files
-chmod -R 555 /var/www/ml2/App
-chmod -R 555 /var/www/ml2/Lib
+chmod -R 555 /var/www/application/App
+chmod -R 555 /var/www/application/Lib
 
 # Keep Data writable
-chmod 775 /var/www/ml2/Data
+chmod 775 /var/www/application/Data
 ```
 
 ### Disable Dangerous Functions
@@ -386,10 +386,10 @@ disable_functions = exec,passthru,shell_exec,system,proc_open,popen,curl_exec,cu
 
 ```bash
 # Store database outside web root (optional)
-mkdir /var/lib/ml2
-mv /var/www/ml2/Data/*.db /var/lib/ml2/
-chown -R www-data:www-data /var/lib/ml2
-chmod 700 /var/lib/ml2
+mkdir /var/lib/application
+mv /var/www/application/Data/*.db /var/lib/application/
+chown -R www-data:www-data /var/lib/application
+chmod 700 /var/lib/application
 
 # Update Database.php to use new path (requires code change)
 ```
@@ -411,17 +411,17 @@ Create a simple health check:
 
 ```bash
 # Add to cron for monitoring
-curl -f https://memorize.live/health || echo "Site down" | mail -s "ML2 Alert" admin@example.com
+curl -f https://memorize.live/health || echo "Site down" | mail -s "Application Alert" admin@example.com
 ```
 
 ### Log Monitoring
 
 ```bash
 # Watch for errors
-tail -f /var/log/ml2-error.log | grep -i error
+tail -f /var/log/application-error.log | grep -i error
 
 # Monitor cron job output
-tail -f /var/log/ml2-cron.log
+tail -f /var/log/application-cron.log
 ```
 
 ## Backup Strategy
@@ -430,11 +430,11 @@ tail -f /var/log/ml2-cron.log
 
 ```bash
 #!/bin/bash
-# /usr/local/bin/backup-ml2.sh
+# /usr/local/bin/backup-application.sh
 
-BACKUP_DIR="/backups/ml2"
+BACKUP_DIR="/backups/application"
 DATE=$(date +%Y%m%d_%H%M%S)
-DB_FILE="/var/www/ml2/Data/memorize.db"
+DB_FILE="/var/www/application/Data/memorize.db"
 
 # Create backup directory
 mkdir -p $BACKUP_DIR
@@ -449,19 +449,19 @@ gzip $BACKUP_DIR/memorize_$DATE.db
 find $BACKUP_DIR -name "memorize_*.db.gz" -mtime +30 -delete
 
 # Sync to remote (optional)
-# rsync -avz $BACKUP_DIR/ backup-server:/backups/ml2/
+# rsync -avz $BACKUP_DIR/ backup-server:/backups/application/
 ```
 
 Add to cron:
 ```bash
-0 3 * * * /usr/local/bin/backup-ml2.sh
+0 3 * * * /usr/local/bin/backup-application.sh
 ```
 
 ### Configuration Backup
 
 ```bash
 # Backup config files
-tar czf /backups/ml2/config_$(date +%Y%m%d).tar.gz /var/www/ml2/Data/config*.json
+tar czf /backups/application/config_$(date +%Y%m%d).tar.gz /var/www/application/Data/config*.json
 ```
 
 ## Troubleshooting
@@ -470,11 +470,11 @@ tar czf /backups/ml2/config_$(date +%Y%m%d).tar.gz /var/www/ml2/Data/config*.jso
 
 ```bash
 # Check file ownership
-ls -la /var/www/ml2/Data/
+ls -la /var/www/application/Data/
 
 # Fix ownership
-chown -R www-data:www-data /var/www/ml2/Data
-chmod 775 /var/www/ml2/Data
+chown -R www-data:www-data /var/www/application/Data
+chmod 775 /var/www/application/Data
 ```
 
 ### 500 Internal Server Error
@@ -496,7 +496,7 @@ putenv('APP_DEBUG=true');
 
 ```bash
 # Check for locks
-lsof /var/www/ml2/Data/memorize.db
+lsof /var/www/application/Data/memorize.db
 
 # Restart web server if necessary
 systemctl restart apache2
@@ -513,7 +513,7 @@ opcache.memory_consumption=128
 opcache.max_accelerated_files=4000
 ```
 
-2. Verify SQLite is using WAL mode (automatic in ML2)
+2. Verify SQLite is using WAL mode (enabled by default)
 
 3. Check disk I/O:
 ```bash
@@ -527,10 +527,10 @@ If deployment fails:
 ```bash
 # 1. Restore previous version from backup
 cd /var/www
-tar xzf backups/ml2_$(date -d yesterday +%Y%m%d).tar.gz
+tar xzf backups/application_$(date -d yesterday +%Y%m%d).tar.gz
 
 # 2. Restore database
-sqlite3 /var/www/ml2/Data/memorize.db ".restore '/backups/ml2/memorize_latest.db'"
+sqlite3 /var/www/application/Data/memorize.db ".restore '/backups/application/memorize_latest.db'"
 
 # 3. Restart web server
 systemctl restart apache2

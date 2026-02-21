@@ -1,6 +1,6 @@
 # Middleware Stack Overview
 
-The ML2 request processing pipeline uses a **7-tier middleware stack** that intercepts incoming requests and enriches them with context before they reach controllers. Each tier is responsible for a specific cross-cutting concern and executes in a strict order to ensure downstream middleware has access to upstream context.
+The Application request processing pipeline uses a **7-tier middleware stack** that intercepts incoming requests and enriches them with context before they reach controllers. Each tier is responsible for a specific cross-cutting concern and executes in a strict order to ensure downstream middleware has access to upstream context.
 
 ## Execution Order
 

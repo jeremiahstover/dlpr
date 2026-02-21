@@ -2,7 +2,7 @@
 
 ## Overview
 
-Path traversal (also known as directory traversal) is a web security vulnerability that allows attackers to read arbitrary files on the server. ML2 implements multiple layers of protection against this attack vector across different components of the application.
+Path traversal (also known as directory traversal) is a web security vulnerability that allows attackers to read arbitrary files on the server. Application implements multiple layers of protection against this attack vector across different components of the application.
 
 ## Primary Defense Mechanisms
 
@@ -72,7 +72,7 @@ if ($uri !== '/' && file_exists(__DIR__ . '/../Public' . $uri) && !is_dir(__DIR_
 
 ## Defense in Depth Strategy
 
-ML2 employs multiple, redundant protection mechanisms:
+Application employs multiple, redundant protection mechanisms:
 
 ### Layer 1: Input Sanitization
 

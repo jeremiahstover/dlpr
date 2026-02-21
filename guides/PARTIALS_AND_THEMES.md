@@ -1,6 +1,6 @@
 # Partials and Themes
 
-The Partials system provides a themeable, reusable component architecture for the ML2 presentation layer. Partials are PHP classes that render specific page sections (header, menu, notifications, footer) with support for multiple visual themes.
+The Partials system provides a themeable, reusable component architecture for the Application presentation layer. Partials are PHP classes that render specific page sections (header, menu, notifications, footer) with support for multiple visual themes.
 
 ## Overview
 
@@ -22,7 +22,7 @@ App/Presentation/Partials/
     │   ├── menu.php
     │   ├── notifications.php
     │   └── footer.php
-    ├── ml2/                    # ML2 theme
+    ├── application/                    # Application theme
     │   ├── header.php
     │   ├── menu.php
     │   ├── notifications.php
@@ -45,10 +45,10 @@ App/Presentation/Partials/
 Each partial is a static class with a `render()` method:
 
 ```php
-namespace MemorizeLive\App\Presentation\Partials;
+namespace Application\App\Presentation\Partials;
 
 class HeaderPartial {
-    public static function render($theme, $title = 'MemorizeLive', $loadVersePicker = false, $userRole = null) {
+    public static function render($theme, $title = 'Application', $loadVersePicker = false, $userRole = null) {
         // Sanitize inputs
         $theme = htmlspecialchars(basename($theme), ENT_QUOTES | ENT_HTML5, 'UTF-8');
         
@@ -101,7 +101,7 @@ theme/{theme_name}/
 4. **Activate theme**:
    Theme is set via user config or application default:
    ```php
-   $theme = $user['config']['theme'] ?? 'ml2';
+   $theme = $user['config']['theme'] ?? 'default';
    ```
 
 ### Theme Template Variables
@@ -133,10 +133,10 @@ Each template receives specific variables:
 Renders the HTML head section and opening body tag.
 
 ```php
-use MemorizeLive\App\Presentation\Partials\HeaderPartial;
+use Application\App\Presentation\Partials\HeaderPartial;
 
 echo HeaderPartial::render(
-    theme: 'ml2',
+    theme: 'default',
     title: 'My Page Title',
     loadVersePicker: true,
     userRole: 'admin'
@@ -145,7 +145,7 @@ echo HeaderPartial::render(
 
 **Features**:
 - Pico CSS framework loading
-- Theme-specific CSS (`ml2-theme.css`)
+- Theme-specific CSS (`default-theme.css`)
 - Role-specific CSS (`admin.css`, `user.css`)
 - Verse picker assets (conditional)
 - Font Awesome icons
@@ -155,10 +155,10 @@ echo HeaderPartial::render(
 Renders the navigation menu with active state highlighting.
 
 ```php
-use MemorizeLive\App\Presentation\Partials\MenuPartial;
+use Application\App\Presentation\Partials\MenuPartial;
 
 echo MenuPartial::render(
-    theme: 'ml2',
+    theme: 'default',
     menu: $menuService,
     currentUri: '/studies'
 );
@@ -175,9 +175,9 @@ echo MenuPartial::render(
 Renders the notification/alert container.
 
 ```php
-use MemorizeLive\App\Presentation\Partials\NotificationsPartial;
+use Application\App\Presentation\Partials\NotificationsPartial;
 
-echo NotificationsPartial::render('ml2');
+echo NotificationsPartial::render('default');
 ```
 
 ### FooterPartial
@@ -185,9 +185,9 @@ echo NotificationsPartial::render('ml2');
 Renders the page footer and closing tags.
 
 ```php
-use MemorizeLive\App\Presentation\Partials\FooterPartial;
+use Application\App\Presentation\Partials\FooterPartial;
 
-echo FooterPartial::render('ml2', ['logoUrl' => '/Assets/img/logo.png']);
+echo FooterPartial::render('default', ['logoUrl' => '/Assets/img/logo.png']);
 ```
 
 ## Creating Custom Partials
@@ -195,7 +195,7 @@ echo FooterPartial::render('ml2', ['logoUrl' => '/Assets/img/logo.png']);
 1. **Create the partial class**:
    ```php
    <?php
-   namespace MemorizeLive\App\Presentation\Partials;
+   namespace Application\App\Presentation\Partials;
    
    class SidebarPartial {
        public static function render($theme, array $widgets): string {
@@ -230,7 +230,7 @@ echo FooterPartial::render('ml2', ['logoUrl' => '/Assets/img/logo.png']);
    ```php
    <?php
    require_once __DIR__ . '/Partials/SidebarPartial.php';
-   use MemorizeLive\App\Presentation\Partials\SidebarPartial;
+   use Application\App\Presentation\Partials\SidebarPartial;
    ?>
    
    <?= SidebarPartial::render($theme, $widgets) ?>
@@ -255,13 +255,13 @@ require_once __DIR__ . '/Partials/MenuPartial.php';
 require_once __DIR__ . '/Partials/NotificationsPartial.php';
 require_once __DIR__ . '/Partials/FooterPartial.php';
 
-use MemorizeLive\App\Presentation\Partials\HeaderPartial;
-use MemorizeLive\App\Presentation\Partials\MenuPartial;
-use MemorizeLive\App\Presentation\Partials\NotificationsPartial;
-use MemorizeLive\App\Presentation\Partials\FooterPartial;
+use Application\App\Presentation\Partials\HeaderPartial;
+use Application\App\Presentation\Partials\MenuPartial;
+use Application\App\Presentation\Partials\NotificationsPartial;
+use Application\App\Presentation\Partials\FooterPartial;
 
-$theme = $this->data['theme'] ?? 'ml2';
-$title = $this->data['title'] ?? 'MemorizeLive';
+$theme = $this->data['theme'] ?? 'default';
+$title = $this->data['title'] ?? 'Application';
 $loadVersePicker = $this->data['loadVersePicker'] ?? false;
 $userRole = $this->data['userRole'] ?? null;
 $currentUri = $this->data['currentUri'] ?? '/';

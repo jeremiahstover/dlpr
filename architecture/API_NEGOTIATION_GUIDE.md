@@ -181,7 +181,7 @@ Mobile apps benefit from the JSON API format:
 
 Future API versions could be implemented through:
 - **URI Versioning**: `/api/v2/studies/123`
-- **Header Versioning**: `Accept: application/vnd.ml2.v2+json`
+- **Header Versioning**: `Accept: application/vnd.application.v2+json`
 - **Parameter Versioning**: `/api/studies/123?version=2`
 
 ## Monitoring and Analytics

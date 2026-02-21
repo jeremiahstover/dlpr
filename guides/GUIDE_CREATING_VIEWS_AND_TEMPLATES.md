@@ -32,7 +32,7 @@ App/Presentation/
     ├── MenuPartial.php
     ├── FooterPartial.php
     └── theme/
-        ├── ml2/
+        ├── application/
         │   ├── header.php
         │   ├── menu.php
         │   └── footer.php
@@ -184,7 +184,7 @@ Themes affect header, menu, and footer partials:
 
 ```php
 // layout.php
-$theme = $this->data['theme'] ?? 'ml2';
+$theme = $this->data['theme'] ?? 'default';
 echo HeaderPartial::render($theme, $title);
 ```
 

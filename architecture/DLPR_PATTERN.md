@@ -1,6 +1,6 @@
 # DLPR Pattern
 
-The MemorizeLive ML2 project follows the **DLPR** architectural pattern, which stands for **D**ata, **L**ogic, **P**resentation, and **R**outes. This pattern ensures a clean separation of concerns and a maintainable codebase.
+The Application project follows the **DLPR** architectural pattern, which stands for **D**ata, **L**ogic, **P**resentation, and **R**outes. This pattern ensures a clean separation of concerns and a maintainable codebase.
 
 ## The Four Layers
 

@@ -1,6 +1,6 @@
 # Route Alias System
 
-This document explains the route alias system in ML2, which provides URI shortcuts and legacy URL support while maintaining clean routing logic.
+This document explains the route alias system in the Application, which provides URI shortcuts and legacy URL support while maintaining clean routing logic.
 
 ## Overview
 

@@ -1,10 +1,10 @@
 # Cron 3-Stage Execution Order
 
-This document provides a deep-dive into the execution order of the ML2 cron system, detailing the three-stage processing pipeline and associated mechanisms for concurrency control and monitoring.
+This document provides a deep-dive into the execution order of the Application cron system, detailing the three-stage processing pipeline and associated mechanisms for concurrency control and monitoring.
 
 ## Overview
 
-The ML2 cron system executes background processing tasks in a specific three-stage order to ensure proper data flow and consistency. Each stage builds upon the results of the previous stage, creating a logical progression from notification delivery to schedule creation to study maintenance.
+The Application cron system executes background processing tasks in a specific three-stage order to ensure proper data flow and consistency. Each stage builds upon the results of the previous stage, creating a logical progression from notification delivery to schedule creation to study maintenance.
 
 ## Three-Stage Execution Order
 

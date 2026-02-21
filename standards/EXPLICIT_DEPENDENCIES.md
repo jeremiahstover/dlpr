@@ -14,7 +14,7 @@ All dependencies must be explicitly initialized and injected. The following are 
 
 All dependencies must be initialized in the **Composition Root**. This is the only place where objects are wired together.
 
-In ML2, `App/App.php` serves as the composition root where:
+In Application, `App/App.php` serves as the composition root where:
 1. Configuration is loaded.
 2. Clients (API wrappers) are initialized.
 3. Repositories are initialized with their database connections.
@@ -101,7 +101,7 @@ Controllers are instantiated in `App::instantiateController` and receive their d
 ```php
 // App/App.php
 private function instantiateController(string $className): object {
-    $fullClass = "MemorizeLive\\App\\Routes\\Controllers\\{$className}";
+    $fullClass = "Application\\App\\Routes\\Controllers\\{$className}";
     
     return match ($className) {
         'StudiesController' => new $fullClass(

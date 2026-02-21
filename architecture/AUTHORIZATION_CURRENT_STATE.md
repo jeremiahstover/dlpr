@@ -2,7 +2,7 @@
 
 ## Overview
 
-Authorization in ML2 is now centralized in middleware. All access control is enforced before controllers execute, following the middleware-based access control pattern. Controllers trust that authorization has been verified and focus solely on business logic.
+Authorization in Application is now centralized in middleware. All access control is enforced before controllers execute, following the middleware-based access control pattern. Controllers trust that authorization has been verified and focus solely on business logic.
 
 ## Current Authorization Implementation
 

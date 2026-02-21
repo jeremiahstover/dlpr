@@ -1,6 +1,6 @@
 # Naming Conventions
 
-This document defines the naming conventions for the `ml2` repository to ensure consistency across the codebase.
+This document defines the naming conventions for the `application` repository to ensure consistency across the codebase.
 
 ## Routes
 All routes must be all lowercase and use kebab-case for multiple words.

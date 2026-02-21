@@ -203,7 +203,7 @@ Run the notification processor via cron:
 
 ```bash
 # Every 5 minutes
-*/5 * * * * cd /var/www/ml2 && php bin/process-schedules.php
+*/5 * * * * cd /var/www/application && php bin/process-schedules.php
 ```
 
 ### Process Script
@@ -213,7 +213,7 @@ Run the notification processor via cron:
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$pdo = new PDO('sqlite:' . __DIR__ . '/../Data/ml2.db');
+$pdo = new PDO('sqlite:' . __DIR__ . '/../Data/application.db');
 $logger = new CronLogging();
 $scheduleApi = new ScheduleApiClient($config);
 

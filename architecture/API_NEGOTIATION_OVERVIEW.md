@@ -2,7 +2,7 @@
 
 ## Overview
 
-The ML2 application implements content negotiation to serve different response formats based on the request type. API requests are identified by the `/api/` prefix and return JSON responses, while standard web requests return HTML responses rendered through the template system.
+The Application application implements content negotiation to serve different response formats based on the request type. API requests are identified by the `/api/` prefix and return JSON responses, while standard web requests return HTML responses rendered through the template system.
 
 ## API Detection Logic
 

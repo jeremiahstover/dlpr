@@ -1,6 +1,6 @@
 # Folder Naming and Structure Best Practices
 
-This guide documents the mandatory folder structure and naming conventions for the ML2 repository.
+This guide documents the mandatory folder structure and naming conventions for the Application repository.
 
 ## Documentation Hierarchy
 

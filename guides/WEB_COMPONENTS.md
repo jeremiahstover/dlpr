@@ -1,6 +1,6 @@
 # Web Components
 
-ML2 uses native Web Components for complex UI elements. The primary component is the Bible verse selector used throughout the application.
+Application uses native Web Components for complex UI elements. The primary component is the Bible verse selector used throughout the application.
 
 ## Overview
 

@@ -1,6 +1,6 @@
 # Asset Pipeline
 
-The asset pipeline handles CSS, JavaScript, and image files. ML2 uses a simple static file approach with theme-based CSS loading.
+The asset pipeline handles CSS, JavaScript, and image files. Application uses a simple static file approach with theme-based CSS loading.
 
 ## Overview
 
@@ -16,7 +16,7 @@ Assets are served directly from the `Public/Assets/` directory without build too
 ```
 Public/Assets/
 ├── css/
-│   ├── ml2-theme.css          # Primary theme (default)
+│   ├── default-theme.css          # Primary theme (default)
 │   ├── original-theme.css     # Original theme
 │   ├── crgslst-theme.css      # Craigslist-style theme
 │   ├── dark-theme.css         # Dark mode variant
@@ -46,14 +46,14 @@ Themes are loaded based on the `app:theme` config value:
 
 ```php
 // In header partial
-$theme = $config->get('app:theme', 'ml2');
+$theme = $config->get('app:theme', 'default');
 $themeCss = "/Assets/css/{$theme}-theme.css";
 ```
 
 ### CSS File Structure
 
 ```css
-/* ml2-theme.css */
+/* default-theme.css */
 
 /* 1. CSS Variables (Design Tokens) */
 :root {
@@ -97,7 +97,7 @@ if ($userRole) {
 }
 ```
 
-Example: An admin user loads both `ml2-theme.css` and `admin.css`.
+Example: An admin user loads both `default-theme.css` and `admin.css`.
 
 ## JavaScript Loading
 
@@ -341,7 +341,7 @@ document.querySelectorAll('.delete-btn').forEach(btn => {
 For production, add version query strings:
 
 ```php
-$cssUrl = '/Assets/css/ml2-theme.css?v=' . filemtime('Public/Assets/css/ml2-theme.css');
+$cssUrl = '/Assets/css/default-theme.css?v=' . filemtime('Public/Assets/css/default-theme.css');
 ```
 
 This forces browsers to reload when files change.

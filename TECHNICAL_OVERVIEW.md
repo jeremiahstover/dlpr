@@ -1,12 +1,12 @@
-# Technical Overview (ML2)
+# Technical Overview (Application)
 
-This is the developer entry point for the Memorize Live ML2 codebase: **how it’s organized**, **where to find things**, and **how a request moves through the system**.
+This is the developer entry point for the Memorize Live Application codebase: **how it’s organized**, **where to find things**, and **how a request moves through the system**.
 
 ## Documentation Hubs
 
 To navigate the system's documentation, use the following hubs:
 
-1. [**Architecture Hub**](architecture/ARCHITECTURE_DEEP_DIVE.md) - Comprehensive deep dive into ML2 architecture
+1. [**Architecture Hub**](architecture/ARCHITECTURE_DEEP_DIVE.md) - Comprehensive deep dive into Application architecture
 2. [**UI & Presentation Hub**](ui/OVERVIEW.md) - Interface levels, themes, and menu defenses
 3. [**Middleware Hub**](middleware/OVERVIEW.md) - The request processing stack and access control
 4. [**Feature Hub**](features/STUDIES.md) - Domain-specific documentation for Studies, Schedules, Notifications, and Collections
@@ -18,7 +18,7 @@ To navigate the system's documentation, use the following hubs:
 
 ## 1. Core Architecture
 
-ML2 is organized around **DLPR**: **Data → Logic → Presentation → Routes**. Each layer has a narrow responsibility.
+Application is organized around **DLPR**: **Data → Logic → Presentation → Routes**. Each layer has a narrow responsibility.
 
 - **Data (`/App/Data/`)**: Owns persistence and integration details. [Learn more](architecture/DLPR_PATTERN.md#1-data-layer-appdata).
 - **Logic (`/App/Logic/`)**: Owns business rules and cross-cutting request processing. [Learn more](architecture/DLPR_PATTERN.md#2-logic-layer-applogic).

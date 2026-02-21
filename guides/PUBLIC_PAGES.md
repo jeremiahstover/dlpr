@@ -84,7 +84,7 @@ Plain HTML files containing the actual page content. These are inserted into the
 ```html
 <!-- Public/Pages/about.html -->
 <section>
-    <h2>About MemorizeLive</h2>
+    <h2>About Application</h2>
     <p>Our mission is to help you memorize scripture...</p>
 </section>
 ```
@@ -189,7 +189,7 @@ Add meta tags to the page content:
 
 ```html
 <!-- Public/Pages/about.html -->
-<meta name="description" content="Learn about MemorizeLive's mission to help you memorize scripture.">
+<meta name="description" content="Learn about Application's mission to help you memorize scripture.">
 <meta name="keywords" content="bible, memorization, scripture, learning">
 
 <section>

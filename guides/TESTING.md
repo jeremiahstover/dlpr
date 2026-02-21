@@ -1,6 +1,6 @@
 # Testing Guide
 
-ML2 uses a custom testing framework with PHP scripts. Tests are organized by type and can be run individually or in groups.
+Application uses a custom testing framework with PHP scripts. Tests are organized by type and can be run individually or in groups.
 
 ## Overview
 
@@ -100,7 +100,7 @@ class MyFeatureTest {
 <?php
 declare(strict_types=1);
 
-use MemorizeLive\App\Data\Repositories\UserRepository;
+use Application\App\Data\Repositories\UserRepository;
 
 require_once __DIR__ . '/../TestHelper.php';
 require_once __DIR__ . '/../../App/Data/Repositories/UserRepository.php';

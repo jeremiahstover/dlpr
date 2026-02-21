@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the middleware-based authorization architecture that has been implemented in ML2. All authorization logic is centralized in the middleware layer, with controllers focused solely on business logic.
+This document describes the middleware-based authorization architecture that has been implemented in this Application. All authorization logic is centralized in the middleware layer, with controllers focused solely on business logic.
 
 **Status:** ✅ Fully Implemented
 

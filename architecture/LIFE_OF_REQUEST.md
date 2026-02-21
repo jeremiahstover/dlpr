@@ -1,10 +1,10 @@
 # Life of a Request
 
-This document traces a complete request through the ML2 application, illustrating how an HTTP request is processed from entry point to response generation.
+This document traces a complete request through the Application application, illustrating how an HTTP request is processed from entry point to response generation.
 
 ## Overview
 
-Every HTTP request to the ML2 application follows a specific path through the system, determined by the URI type classification performed in `Public/index.php`. This document walks through that process with concrete examples.
+Every HTTP request to the Application application follows a specific path through the system, determined by the URI type classification performed in `Public/index.php`. This document walks through that process with concrete examples.
 
 ## Example Trace: `/studies/123`
 
@@ -23,7 +23,7 @@ Public/index.php (Entry Point)
 The request first hits `Public/index.php`, which determines the route type and loads the appropriate handler:
 
 ```php
-$router = new MemorizeLive\App\Routes\Router();
+$router = new Application\App\Routes\Router();
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $routeInfo = $router->identifyRouteType($uri);
 $routeType = $routeInfo['type'];
@@ -32,7 +32,7 @@ $resolvedUri = $routeInfo['resolved_uri'];
 // Since /studies/123 doesn't match static, lite, or cron patterns
 // it defaults to 'heavy' type
 require_once __DIR__ . '/../App/App.php';
-$app = new MemorizeLive\App\App();
+$app = new Application\App\App();
 echo $app->orchestrate();
 ```
 

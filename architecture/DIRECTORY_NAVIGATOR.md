@@ -1,6 +1,6 @@
 # Directory Navigator
 
-A quick-reference guide to the MemorizeLive ML2 directory structure.
+A quick-reference guide to the Application directory structure.
 
 ## Core Application (`/App/`)
 

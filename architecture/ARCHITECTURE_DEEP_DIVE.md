@@ -1,6 +1,6 @@
 # Architecture Deep Dive
 
-This document provides a comprehensive technical deep dive into the ML2 architecture, consolidating insights from individual architecture documents to present a holistic view of the system design.
+This document provides a comprehensive technical deep dive into the Application architecture, consolidating insights from individual architecture documents to present a holistic view of the system design.
 
 ## Table of Contents
 
@@ -19,7 +19,7 @@ This document provides a comprehensive technical deep dive into the ML2 architec
 
 ## System Entry Points
 
-The ML2 application has a single entry point at `Public/index.php` that handles all incoming requests. This entry point is responsible for:
+The Application application has a single entry point at `Public/index.php` that handles all incoming requests. This entry point is responsible for:
 
 - Loading the autoloader
 - Instantiating the main application class
@@ -30,7 +30,7 @@ For detailed information on entry points, see [ENTRY_POINTS.md](ENTRY_POINTS.md)
 
 ## Request Processing Pipeline
 
-The complete life of a request in ML2 follows this path:
+The complete life of a request in Application follows this path:
 
 1. Entry point processing in `Public/index.php`
 2. Application orchestration in `App/App.php`
@@ -46,7 +46,7 @@ For a detailed breakdown, see [LIFE_OF_REQUEST.md](LIFE_OF_REQUEST.md).
 
 ## URI Type Classification and Routing
 
-ML2 classifies incoming requests into five distinct URI types:
+Application classifies incoming requests into five distinct URI types:
 
 1. **Static** - Direct file serving
 2. **Lite** - Simple page requests
@@ -60,7 +60,7 @@ For detailed information, see [URI_TYPES.md](URI_TYPES.md).
 
 ## Autoloading System
 
-ML2 implements a custom autoloader that follows a two-part logic:
+Application implements a custom autoloader that follows a two-part logic:
 
 1. Application code autoloading based on namespace mapping
 2. External library autoloading for third-party dependencies
@@ -82,7 +82,7 @@ For complete details, see [ROUTE_ALIASES.md](ROUTE_ALIASES.md).
 
 ## API Content Negotiation
 
-ML2 supports API content negotiation through:
+Application supports API content negotiation through:
 
 - URI-based detection (`/api/` prefix)
 - HTTP header-based negotiation (`Accept: application/json`)
@@ -108,7 +108,7 @@ Each middleware has a focused responsibility and contributes to the overall requ
 
 ## DLPR Architecture Pattern
 
-ML2 is organized around the DLPR pattern:
+Application is organized around the DLPR pattern:
 
 - **Data** (`/App/Data/`) - Persistence and integration layer
 - **Logic** (`/App/Logic/`) - Business rules and request processing
@@ -121,7 +121,7 @@ For detailed information, see [DLPR_PATTERN.md](DLPR_PATTERN.md).
 
 ## Explicit Dependencies
 
-All classes in ML2 follow the explicit dependency pattern, where dependencies are injected through constructors rather than accessed through static methods or service locators. This approach:
+All classes in Application follow the explicit dependency pattern, where dependencies are injected through constructors rather than accessed through static methods or service locators. This approach:
 
 - Improves testability
 - Makes dependencies explicit
@@ -146,7 +146,7 @@ For detailed information, see [EXECUTION_ORDER.md](../cron/EXECUTION_ORDER.md).
 
 ## Security Mechanisms
 
-ML2 implements several security mechanisms to protect against common vulnerabilities:
+Application implements several security mechanisms to protect against common vulnerabilities:
 
 ### Path Traversal Prevention
 
@@ -172,7 +172,7 @@ For detailed information, see [STATIC_FILE_SERVING_SECURITY.md](STATIC_FILE_SERV
 
 ## Directory Structure
 
-The ML2 directory structure reflects the DLPR architecture pattern:
+The Application directory structure reflects the DLPR architecture pattern:
 
 ```
 /
