@@ -13,24 +13,6 @@ Learn how to add new pages and views to the system:
 - Configuring routes
 - Adding to the navigation menu
 
-### Adding Interface Levels
-**[Guide: Adding Interface Levels](GUIDE_ADDING_INTERFACE_LEVELS.md)**
-
-Learn how to create new UI complexity levels:
-- Understanding the interface level system
-- Creating specialized templates
-- Configuring interface mappings
-- Testing interface-level views
-
-### Adding Study Types
-**[Guide: Adding Study Types](GUIDE_ADDING_STUDY_TYPES.md)**
-
-Learn how to add new study formats:
-- Understanding study type architecture
-- Adding database support
-- Implementing content fetching
-- Setting up notifications
-
 ## How to Use These Guides
 
 Each guide follows this structure:
@@ -44,7 +26,6 @@ Each guide follows this structure:
 
 For quick answers to specific questions, refer to these hubs:
 - **Architecture patterns** → [Architecture Hub](../architecture/DLPR_PATTERN.md)
-- **UI components** → [UI Hub](../ui/OVERVIEW.md)
 - **Access control** → [Middleware Hub](../middleware/OVERVIEW.md)
 - **Coding standards** → [Standards Hub](../standards/NAMING_CONVENTIONS.md)
 

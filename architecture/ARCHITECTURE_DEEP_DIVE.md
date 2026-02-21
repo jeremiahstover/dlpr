@@ -56,7 +56,7 @@ Application classifies incoming requests into five distinct URI types:
 
 Each URI type follows a specific processing pipeline with unique security and performance characteristics. The classification logic determines how requests are handled throughout their lifecycle.
 
-For detailed information, see [URI_TYPES.md](URI_TYPES.md).
+For detailed information, see [URI_TYPES_OVERVIEW.md](URI_TYPES_OVERVIEW.md).
 
 ## Autoloading System
 
@@ -142,7 +142,7 @@ The cron system executes background tasks in a specific order:
 
 This order ensures data consistency and proper timing of dependent operations. The system includes locking mechanisms and heartbeat monitoring.
 
-For detailed information, see [EXECUTION_ORDER.md](../cron/EXECUTION_ORDER.md).
+For detailed information, see [cron/OVERVIEW.md](../cron/OVERVIEW.md).
 
 ## Security Mechanisms
 

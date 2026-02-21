@@ -15,21 +15,6 @@ The foundation of the system - pattern definitions, directory structure, and arc
 - [Access Control Architecture](architecture/ACCESS_CONTROL_OVERVIEW.md) - Authorization system design
 - [Authorization Patterns](architecture/AUTHORIZATION_CURRENT_STATE.md) - Current authorization implementation
 
-### Feature Hub
-Domain-specific documentation for the core features.
-- [Studies](features/STUDIES.md) - Bible study management
-- [Schedules](features/SCHEDULES.md) - Study scheduling and progression
-- [Notifications](features/NOTIFICATIONS.md) - Reminder and delivery system
-- [Collections](features/COLLECTIONS.md) - Study grouping and organization
-
-### UI Hub
-User interface components and presentation layer details.
-- [UI Overview](ui/OVERVIEW.md) - Complete UI system overview
-- [Interface Levels](ui/INTERFACE_LEVELS.md) - Dynamic UI complexity
-- [Themes](ui/THEMES.md) - Visual theme system
-- [Menu System](ui/MENU_SYSTEM.md) - Navigation menu structure
-- [Critical Menu Defenses](ui/CRITICAL_MENU_DEFENSES.md) - Menu security safeguards
-
 ### Middleware Hub
 The request processing stack and cross-cutting concerns.
 - [Middleware Overview](middleware/OVERVIEW.md) - Complete middleware stack documentation
@@ -143,14 +128,11 @@ This project uses an **Explicit Dependency Pattern**. All dependencies required 
 
 ## Interface and Theme Resolution
 
-The system supports multiple interface levels and visual themes, resolved dynamically based on user context.
-
-- **Interface Levels**: [View Levels and Templates](ui/OVERVIEW.md)
+The system supports multiple interface levels (guest, user, admin) and visual themes, resolved dynamically based on user context via the Presentation layer.
 
 ## Cron Processing
 
-The cron system manages background tasks in a specific lifecycle:
-1. Notifications → 2. Schedules → 3. Studies
+Background tasks run through a dedicated cron URI type, keeping them consistent with the rest of the request pipeline.
 
 *See the [Cron Hub](cron/OVERVIEW.md) for more details.*
 

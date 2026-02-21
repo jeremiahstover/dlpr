@@ -154,7 +154,7 @@ Create virtual host:
 ```apache
 # /etc/apache2/sites-available/application.conf
 <VirtualHost *:80>
-    ServerName memorize.live
+    ServerName yourdomain.com
     DocumentRoot /var/www/application/Public
     
     # Enable rewrite engine
@@ -191,7 +191,7 @@ Create server block:
 # /etc/nginx/sites-available/application
 server {
     listen 80;
-    server_name memorize.live;
+    server_name yourdomain.com;
     root /var/www/application/Public;
     index index.php;
     
@@ -262,13 +262,13 @@ Run health checks:
 
 ```bash
 # Check PHP is working
-curl -I https://memorize.live
+curl -I https://yourdomain.com
 
 # Check database is writable
-curl https://memorize.live/health
+curl https://yourdomain.com/health
 
 # Verify static assets
-curl -I https://memorize.live/Assets/css/default-theme.css
+curl -I https://yourdomain.com/Assets/css/default-theme.css
 ```
 
 ## Post-Deployment Configuration
@@ -284,9 +284,9 @@ apt install certbot python3-certbot-apache  # For Apache
 apt install certbot python3-certbot-nginx   # For Nginx
 
 # Obtain certificate
-certbot --apache -d memorize.live -d www.memorize.live
+certbot --apache -d yourdomain.com -d www.yourdomain.com
 # or
-certbot --nginx -d memorize.live -d www.memorize.live
+certbot --nginx -d yourdomain.com -d www.yourdomain.com
 
 # Auto-renewal is configured automatically
 certbot renew --dry-run
@@ -333,8 +333,8 @@ Application supports hostname-specific config files:
 ```
 Data/
 ├── config.json              # Default config
-├── config.memorize.live.json    # Production
-├── config.staging.memorize.live.json  # Staging
+├── config.yourdomain.com.json    # Production
+├── config.staging.yourdomain.com.json  # Staging
 └── config.localhost.json    # Development
 ```
 
@@ -344,14 +344,14 @@ The application automatically loads the config matching the current hostname.
 
 1. Create staging config:
 ```bash
-cp Data/config.json Data/config.staging.memorize.live.json
+cp Data/config.json Data/config.staging.yourdomain.com.json
 ```
 
 2. Update staging-specific values:
 ```json
 {
     "app": {
-        "base_url": "https://staging.memorize.live"
+        "base_url": "https://staging.yourdomain.com"
     },
     "mode": "development"
 }
@@ -411,7 +411,7 @@ Create a simple health check:
 
 ```bash
 # Add to cron for monitoring
-curl -f https://memorize.live/health || echo "Site down" | mail -s "Application Alert" admin@example.com
+curl -f https://yourdomain.com/health || echo "Site down" | mail -s "Application Alert" admin@example.com
 ```
 
 ### Log Monitoring
@@ -434,19 +434,19 @@ tail -f /var/log/application-cron.log
 
 BACKUP_DIR="/backups/application"
 DATE=$(date +%Y%m%d_%H%M%S)
-DB_FILE="/var/www/application/Data/memorize.db"
+DB_FILE="/var/www/application/Data/application.db"
 
 # Create backup directory
 mkdir -p $BACKUP_DIR
 
 # Backup SQLite database
-sqlite3 $DB_FILE ".backup '$BACKUP_DIR/memorize_$DATE.db'"
+sqlite3 $DB_FILE ".backup '$BACKUP_DIR/application_$DATE.db'"
 
 # Compress backup
-gzip $BACKUP_DIR/memorize_$DATE.db
+gzip $BACKUP_DIR/application_$DATE.db
 
 # Keep only last 30 days
-find $BACKUP_DIR -name "memorize_*.db.gz" -mtime +30 -delete
+find $BACKUP_DIR -name "application_*.db.gz" -mtime +30 -delete
 
 # Sync to remote (optional)
 # rsync -avz $BACKUP_DIR/ backup-server:/backups/application/
@@ -496,7 +496,7 @@ putenv('APP_DEBUG=true');
 
 ```bash
 # Check for locks
-lsof /var/www/application/Data/memorize.db
+lsof /var/www/application/Data/application.db
 
 # Restart web server if necessary
 systemctl restart apache2
@@ -530,7 +530,7 @@ cd /var/www
 tar xzf backups/application_$(date -d yesterday +%Y%m%d).tar.gz
 
 # 2. Restore database
-sqlite3 /var/www/application/Data/memorize.db ".restore '/backups/application/memorize_latest.db'"
+sqlite3 /var/www/application/Data/application.db ".restore '/backups/application/application_latest.db'"
 
 # 3. Restart web server
 systemctl restart apache2

@@ -23,9 +23,7 @@ A quick-reference guide to the Application directory structure.
 
 - `routes.json`: Primary mapping of URIs to Controller/Method and access levels.
 - `config.json`: Application-wide settings (theme, base URL, etc.).
-- `aliases.json`: URL shorteners and redirects.
-- `menus.json`: Navigation menu definitions.
-- `paragraphs.json`: Content paragraphs for static pages.
+- `aliases.json`: URL shortcuts and legacy URL support.
 - `init/`: Database initialization scripts.
 
 ## Runtime Files (`/Files/`)
