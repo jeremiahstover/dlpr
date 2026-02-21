@@ -102,4 +102,4 @@ More at [thepragmat.com](https://thepragmat.com).
 
 DLPR isn't trying to be Laravel. It's trying to be the thing you reach for when you want to build something solid without pulling in a framework that knows better than you do.
 
-The principles here are stewardship principles wearing a tech costume: clear ownership, no hidden dependencies, every piece doing exactly one job. Simple enough to explain to a junior dev in an afternoon. Strict enough to keep a codebase honest for years.
+The principles here are stewardship principles wearing a tech costume: clear ownership, no hidden dependencies, every piece doing exactly one job. Simple enough to explain to a junior dev in an afternoon. Strict enough to keep a codebase honest for years. Is it there? not yet but it is striving for that excellence.
