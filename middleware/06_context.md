@@ -18,7 +18,7 @@ $request['user_context'] = [
     'timezone' => 'America/New_York',
     'interface' => 2,
     'config' => [
-        'theme' => 'ml',
+        'theme' => 'default',
         'login_length' => 7,
         'home_route' => 'studies',
         // ... other user config
@@ -213,7 +213,7 @@ public function dashboard($app, array $request): array {
     
     if ($context) {
         $timezone = $context['timezone'] ?? 'UTC';
-        $theme = $context['config']['theme'] ?? 'ml';
+        $theme = $context['config']['theme'] ?? 'default';
         $interface = $context['interface'] ?? 1;
         
         // Use context for rendering decisions
@@ -225,7 +225,7 @@ public function dashboard($app, array $request): array {
     }
     
     // Default for unauthenticated
-    return ['theme' => 'ml'];
+    return ['theme' => 'default'];
 }
 ```
 

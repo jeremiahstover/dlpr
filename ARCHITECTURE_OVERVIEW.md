@@ -126,10 +126,6 @@ This project uses an **Explicit Dependency Pattern**. All dependencies required 
 
 *See [Explicit Dependencies](architecture/EXPLICIT_DEPENDENCIES.md) for implementation details.*
 
-## Interface and Theme Resolution
-
-The system supports multiple interface levels (guest, user, admin) and visual themes, resolved dynamically based on user context via the Presentation layer.
-
 ## Cron Processing
 
 Background tasks run through a dedicated cron URI type, keeping them consistent with the rest of the request pipeline.

@@ -18,7 +18,7 @@ Contains the business logic and cross-cutting concerns.
 ### 3. Presentation Layer (`App/Presentation/`)
 Handles the rendering of the user interface.
 - **Templates**: PHP files using the Plates template engine.
-- **Presenter**: Orchestrates template rendering, including theme and interface level resolution.
+- **Presenter**: Orchestrates template rendering and output.
 
 ### 4. Routes Layer (`App/Routes/`)
 The entry point for application logic.

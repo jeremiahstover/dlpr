@@ -31,7 +31,7 @@ $request = [
 ];
 
 // After Tier 01: ConfigMiddleware
-$request['config'] = ['theme' => 'ml', 'admins' => [...]];
+$request['config'] = ['theme' => 'default', 'admins' => [...]];
 
 // After Tier 02: IdentityMiddleware  
 $request['identity'] = Identity { id: 42, email: 'user@example.com', role: 'user' };

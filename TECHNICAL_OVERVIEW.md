@@ -35,7 +35,6 @@ Organized around **DLPR**: **Data → Logic → Presentation → Routes**. Each 
 ## 4. UI System
 
 - **Interface Levels**: UI complexity scales by user role — guest, user, and admin each see a different level of interface.
-- **Theme System**: Support for multiple visual themes via the Presentation layer.
 
 ---
 

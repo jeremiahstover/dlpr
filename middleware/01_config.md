@@ -38,7 +38,7 @@ The `ConfigManager` provides hierarchical key access using colon-separated paths
 ```php
 // Accessing nested config values
 $perPage = $configManager->get('pagination:per_page', 20);
-$theme = $configManager->get('app:theme', 'ml');
+$theme = $configManager->get('app:theme', 'default');
 ```
 
 When a default is provided and the key doesn't exist:
@@ -53,7 +53,7 @@ The config array typically contains:
 ```php
 $request['config'] = [
     'app' => [
-        'theme' => 'ml',
+        'theme' => 'default',
         'base_url' => 'https://example.com',
     ],
     'encryption' => [
@@ -85,7 +85,7 @@ Controllers access config via:
 
 ```php
 $config = $request['config'];
-$theme = $config['app']['theme'] ?? 'ml';
+$theme = $config['app']['theme'] ?? 'default';
 $admins = $config['admins'] ?? [];
 ```
 
