@@ -92,7 +92,7 @@ ui/               Interface level concepts
 
 The documentation is the deliverable at this stage. The pattern is extracted from a production codebase ([memorize.live](https://memorize.live)), the docs are clean and framework-generic, and the repo is public.
 
-What's coming: a minimalist sample app, then a full-featured reference implementation.
+What's planned: 1) a php code git-submodule impelementation 2) a minimalist sample app 3) a full-featured reference implementation.
 
 More at [thepragmat.com](https://thepragmat.com).
 
