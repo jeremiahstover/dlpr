@@ -167,11 +167,10 @@ The `config` field stores JSON-encoded user preferences:
 
 ```json
 {
-    "theme": "ml",
+    "theme": "default",
     "login_length": 7,
-    "home_route": "studies",
+    "home_route": "dashboard",
     "suppress_timezone_warning": false,
-    "interface_level": 2,
     "logo_url": "https://example.com/logo.png"
 }
 ```
@@ -201,11 +200,7 @@ The interface level determines UI complexity and available features:
 | Level | Name | Description |
 |-------|------|-------------|
 | 0 | Guest | Unauthenticated visitor |
-| 1 | Focused | Minimal interface, core features only |
-| 2 | Normal | Standard feature set |
-| 3 | Power | Advanced features enabled |
-| 4 | Programmer | Developer tools visible |
-| 8 | Manager | Management features |
+| 1 | User | Standard authenticated user |
 | 9 | Admin | Full system access |
 
 ## Downstream Usage
@@ -225,7 +220,7 @@ public function dashboard($app, array $request): array {
         return [
             'theme' => $theme,
             'timezone' => $timezone,
-            'show_advanced' => $interface >= 3,
+            'is_admin' => $interface >= 9,
         ];
     }
     
