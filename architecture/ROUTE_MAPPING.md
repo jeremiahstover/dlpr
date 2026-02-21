@@ -1,123 +1,86 @@
-# Route Mapping - UserController Split
+# Routing
 
-## Overview
-All 22 user-related routes have been successfully migrated from the monolithic UserController to four domain-specific controllers.
+DLPR uses a **data-driven router** — routes are defined in a JSON file, not in code. The router reads this file at startup and matches incoming URIs to controller/method pairs. No annotations, no chained method calls, no magic.
 
-## Route Distribution
+## Route Definition
 
-### 🔐 IdentityController (8 routes)
-Authentication, signup, login, and email validation flows
+Routes live in `Data/routes.json`:
 
-| Route | Method | Purpose |
-|-------|--------|---------|
-| `/user/login` | login() | Login form and processing |
-| `/user/logout` | logout() | Logout handling |
-| `/user/signup` | signup() | User signup form/processing |
-| `/user/send-login-link` | sendLoginLink() | Send magic login link via email |
-| `/validate-login` | validateLogin() | Validate magic login link |
-| `/validate` | validate() | Email validation/verification |
-| `/user/generate-validation-link` | generateValidationLink() | Send verification email |
-| `/user/suppress-timezone-warning` | suppressTimezoneWarning() | Suppress timezone warning |
+```json
+{
+    "/": { "controller": "PageController", "method": "home" },
+    "/about": { "controller": "PageController", "method": "about" },
+    "/studies": { "controller": "StudiesController", "method": "index" },
+    "/studies/{id}": { "controller": "StudiesController", "method": "view" },
+    "/studies/{id}/edit": { "controller": "StudiesController", "method": "edit" },
+    "/studies/save": { "controller": "StudiesController", "method": "save" }
+}
+```
 
-### 👤 ProfileController (11 routes)
-User profile, settings, password, configuration, and focused times management
+Each entry maps a URI pattern to a controller class and method name. That's the entire contract.
 
-| Route | Method | Purpose |
-|-------|--------|---------|
-| `/user[/{id}]` | view() | View user profile |
-| `/user[/{id}]/edit` | edit() | Combined edit form |
-| `/user[/{id}]/edit-profile` | editProfile() | Edit profile fields only |
-| `/user/save-profile` | saveProfile() | Save profile updates |
-| `/user[/{id}]/edit-password` | editPasswordForm() | Password change form |
-| `/user/save-password` | savePassword() | Save password change |
-| `/user[/{id}]/edit-config` | editConfig() | Edit user configuration |
-| `/user/save-config` | saveConfig() | Save configuration |
-| `/user[/{id}]/edit-focused-times` | editFocusedTimes() | Edit focused times |
-| `/user/save-focused-times` | saveFocusedTimes() | Save focused times |
-| `/user/save` | save() | Legacy delegator (→ saveFocusedTimes) |
+## How the Router Matches a Request
 
-### 🎨 MenuCustomizationController (2 routes)
-Menu override customization management
+Given an incoming URI, the router works through three steps in order:
 
-| Route | Method | Purpose |
-|-------|--------|---------|
-| `/user[/{id}]/edit-menu-overrides` | editMenuOverrides() | Edit menu overrides form |
-| `/user/save-menu-overrides` | saveMenuOverrides() | Save menu customizations |
+**1. Alias resolution** — check `Data/aliases.json` for a mapped URI and substitute it before matching. See [ROUTE_ALIASES.md](ROUTE_ALIASES.md).
 
-### 👨‍💼 AdminUserController (1 route)
-Admin-specific user management operations
+**2. Exact match** — look up the URI directly in the routes array. Fast O(1) lookup.
 
-| Route | Method | Purpose |
-|-------|--------|---------|
-| `/users` | list() | List all users with pagination |
+**3. Pattern match** — if no exact match, iterate routes with `{param}` placeholders and test each against the URI via regex. Captured parameters are injected into `$request['params']`.
 
-## Route Aliases (from aliases.json)
+If nothing matches, the router returns null and the application handles a 404.
 
-The following route aliases continue to work unchanged:
+## URI Parameters
 
-| Alias | Maps To | Controller |
-|-------|---------|------------|
-| `/login` | `/user/login` | IdentityController |
-| `/logout` | `/user/logout` | IdentityController |
-| `/signup` | `/user/signup` | IdentityController |
-| `/profile` | `/user` | ProfileController |
-| `/profile[/{id}]` | `/user[/{id}]` | ProfileController |
-| `/profile[/{id}]/edit` | `/user[/{id}]/edit` | ProfileController |
-| `/profile/save` | `/user/save` | ProfileController |
+Parameters are declared with curly braces in the route key:
 
-## Statistics
+```json
+"/studies/{id}": { "controller": "StudiesController", "method": "view" }
+```
 
-### Total Routes: 22
-- IdentityController: 8 routes (36%)
-- ProfileController: 11 routes (50%)
-- MenuCustomizationController: 2 routes (9%)
-- AdminUserController: 1 route (5%)
+The router extracts the captured value and makes it available to the controller:
 
-### Route Patterns
-- **Public routes** (no auth): `/user/login`, `/user/signup`, `/validate-login`, `/validate`
-- **Authenticated routes**: All other routes require authentication
-- **Admin routes**: `/users` requires admin role
-- **Ownership routes**: Routes with `[/{id}]` support both own profile and admin access
+```php
+public function view(array $request): array {
+    $id = $request['params']['id'];
+    // ...
+}
+```
 
-## Verification
+Optional segments use bracket notation:
 
-All routes have been verified:
-- ✅ Routes.json is valid JSON
-- ✅ All controllers exist and compile
-- ✅ All methods exist in their respective controllers
-- ✅ No duplicate route definitions
-- ✅ All aliases continue to work
+```json
+"/user[/{id}]": { "controller": "ProfileController", "method": "view" }
+```
 
-## Migration Impact
+This matches both `/user` and `/user/42`.
 
-### No Breaking Changes
-- ✅ All existing URLs continue to work
-- ✅ All form actions remain unchanged
-- ✅ All template references remain valid
-- ✅ All middleware integrations preserved
+## Controller Resolution
 
-### Improved Organization
-- ✅ Clear domain separation
-- ✅ Easier to locate route handlers
-- ✅ Reduced cognitive load for developers
-- ✅ Better testability per domain
+The router returns a `controller` and `method` string. The application instantiates the controller class and calls the method, passing the full `$request` array:
 
----
+```php
+$route = $this->router->match($request['uri'], $request);
+$controller = $this->instantiateController($route['controller']);
+$output = $controller->{$route['method']}($request);
+```
 
-**Generated:** January 5, 2025
-**Total Routes Migrated:** 22
-**Controllers Created:** 4
-**Breaking Changes:** 0
+Controllers are resolved from the `App/Routes/` directory by class name. Dependencies are injected at instantiation — controllers never reach for globals or static state.
 
----
+## API Routes
 
-**Note:** This document records a completed migration (January 2025). The UserController was split into four domain-specific controllers. All routes continue to function as documented.
+Routes are accessible as API endpoints by prefixing the URI with `/api/`. The router strips the prefix, resolves the route normally, and sets `$request['is_api'] = true`. The controller doesn't change — content negotiation at the response layer handles JSON vs. HTML output.
 
-**Related Docs:**
-- [ROUTE_ALIASES.md](ROUTE_ALIASES.md) - Route alias system
-- [URI_TYPES_OVERVIEW.md](URI_TYPES_OVERVIEW.md) - URI type classification
-- [ACCESS_CONTROL_OVERVIEW.md](ACCESS_CONTROL_OVERVIEW.md) - Access control for routes
+## Adding a Route
 
-**Document Version:** 1.0
-**Last Updated:** 2025-02-08
-**Status:** Accurate and Complete (Historical Record)
+1. Add the entry to `Data/routes.json`
+2. Create or extend the controller class in `App/Routes/`
+3. No registration, no rebuilding — the router reads the file on the next request
+
+## Related Docs
+
+- [ROUTE_ALIASES.md](ROUTE_ALIASES.md) — URI shortcuts and legacy URL support
+- [ENTRY_POINTS.md](ENTRY_POINTS.md) — How URI type classification happens before routing
+- [LIFE_OF_REQUEST.md](LIFE_OF_REQUEST.md) — Full request trace including route matching
+- [DLPR_PATTERN.md](DLPR_PATTERN.md) — Where Routes fits in the overall pattern
