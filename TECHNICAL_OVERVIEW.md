@@ -1,24 +1,20 @@
-# Technical Overview (Application)
+# Technical Overview
 
-This is the developer entry point for the Memorize Live Application codebase: **how it’s organized**, **where to find things**, and **how a request moves through the system**.
+This is the developer entry point for a DLPR-based codebase: **how it's organized**, **where to find things**, and **how a request moves through the system**.
 
 ## Documentation Hubs
 
-To navigate the system's documentation, use the following hubs:
-
-1. [**Architecture Hub**](architecture/ARCHITECTURE_DEEP_DIVE.md) - Comprehensive deep dive into Application architecture
-2. [**UI & Presentation Hub**](ui/OVERVIEW.md) - Interface levels, themes, and menu defenses
-3. [**Middleware Hub**](middleware/OVERVIEW.md) - The request processing stack and access control
-4. [**Feature Hub**](features/STUDIES.md) - Domain-specific documentation for Studies, Schedules, Notifications, and Collections
-5. [**Cron Hub**](cron/OVERVIEW.md) - Background tasks and heartbeat monitoring.
-6. [**Standards Hub**](standards/NAMING_CONVENTIONS.md) - Naming conventions and API response shapes.
-7. [**Guides Hub**](guides/OVERVIEW.md) - Step-by-step tutorials for common development tasks.
+1. [**Architecture Hub**](architecture/ARCHITECTURE_DEEP_DIVE.md) - Comprehensive deep dive into DLPR architecture
+2. [**Middleware Hub**](middleware/OVERVIEW.md) - The request processing stack and access control
+3. [**Cron Hub**](cron/OVERVIEW.md) - Background tasks and heartbeat monitoring
+4. [**Standards Hub**](standards/NAMING_CONVENTIONS.md) - Naming conventions and API response shapes
+5. [**Guides Hub**](guides/OVERVIEW.md) - Step-by-step tutorials for common development tasks
 
 ---
 
 ## 1. Core Architecture
 
-Application is organized around **DLPR**: **Data → Logic → Presentation → Routes**. Each layer has a narrow responsibility.
+Organized around **DLPR**: **Data → Logic → Presentation → Routes**. Each layer has a narrow responsibility.
 
 - **Data (`/App/Data/`)**: Owns persistence and integration details. [Learn more](architecture/DLPR_PATTERN.md#1-data-layer-appdata).
 - **Logic (`/App/Logic/`)**: Owns business rules and cross-cutting request processing. [Learn more](architecture/DLPR_PATTERN.md#2-logic-layer-applogic).
@@ -34,13 +30,12 @@ Application is organized around **DLPR**: **Data → Logic → Presentation → 
 ## 3. Data Layer
 
 - **Repositories**: Responsible for SQL queries and row mapping. Located in `/App/Data/Repositories/`.
-- **API Clients**: External integrations (Verse API, Mailgun, etc.) live in `/App/Data/Clients/`.
+- **API Clients**: External integrations live in `/App/Data/Clients/`.
 
 ## 4. UI System
 
-- **Pico CSS**: Base styling with semantic HTML.
-- **Interface Levels**: Dynamic UI complexity based on user level. [Learn more](ui/OVERVIEW.md#1-interface-levels).
-- **Theme System**: Support for multiple visual themes. [Learn more](ui/OVERVIEW.md#2-theme-system).
+- **Interface Levels**: UI complexity scales by user role — guest, user, and admin each see a different level of interface.
+- **Theme System**: Support for multiple visual themes via the Presentation layer.
 
 ---
 
@@ -48,10 +43,7 @@ Application is organized around **DLPR**: **Data → Logic → Presentation → 
 
 - **Naming Conventions**: Follow the standards defined in the [Standards Hub](standards/NAMING_CONVENTIONS.md).
 - **Response Shapes**: Controllers must return standardized arrays via `ResponseBuilder`. [See Response Patterns](standards/RESPONSE_PATTERNS.md).
-- **Testing**: All new features must include tests in the `/Tests/` directory.
-
----
-*For a comprehensive architectural deep dive, see [ARCHITECTURE_DEEP_DIVE.md](architecture/ARCHITECTURE_DEEP_DIVE.md).*
+- **Testing**: All new features should include tests in the `/Tests/` directory.
 
 ---
 
@@ -59,7 +51,3 @@ Application is organized around **DLPR**: **Data → Logic → Presentation → 
 - [ARCHITECTURE_OVERVIEW.md](ARCHITECTURE_OVERVIEW.md) - Master hub entry point
 - [architecture/ARCHITECTURE_DEEP_DIVE.md](architecture/ARCHITECTURE_DEEP_DIVE.md) - Comprehensive architectural deep dive
 - [architecture/LIFE_OF_REQUEST.md](architecture/LIFE_OF_REQUEST.md) - Detailed request lifecycle
-
-**Document Version:** 1.0
-**Last Updated:** 2025-02-08
-**Status:** Accurate and Complete
