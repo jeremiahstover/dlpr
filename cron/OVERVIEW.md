@@ -1,39 +1,17 @@
-# Cron Lifecycle and Heartbeat
+# Cron
 
-The cron system manages background tasks such as notification delivery, schedule updates, and study maintenance.
+DLPR routes cron tasks through the same middleware pipeline as web requests, using a dedicated URI type. This keeps background processing consistent with the rest of the application rather than a separate execution environment.
 
-## Execution Cycle
+See [URI_TYPE_CRON.md](../architecture/URI_TYPE_CRON.md) for how cron requests enter and move through the system.
 
-The cron runs periodically (usually every minute) and processes tasks in the following order:
+## Core Principles
 
-1.  **Notifications**: Checks for pending notifications that are due for delivery.
-2.  **Schedules**: Processes schedule progressions and generates the next notifications.
-3.  **Studies**: Performs maintenance on studies and cleans up completed or inactive records.
+**Idempotency** — All cron tasks must be safe to run multiple times. If a task runs twice due to overlap or retry, the result should be the same as running it once.
 
-## Monitoring
+**Locking** — Prevent concurrent execution with a file-based lock. Use atomic file creation (`fopen` with `x` mode) so only one process can acquire the lock. Write a timestamp to the lock file and treat locks older than a configurable timeout as stale.
 
-### Heartbeat File
-The cron system writes its current status to a heartbeat file located at:
-`/Files/Logs/cron-heartbeat.txt`
+**Heartbeat** — Write a timestamp to a known file on each successful run. External monitoring checks this file to confirm the cron is alive. Simple, no dependencies.
 
-This file contains the timestamp of the last successful cron execution. Monitoring systems can check this file to ensure the cron is running as expected.
+## Logging
 
-### Logging
-Detailed cron logs are written to `/Files/Logs/cron.log`. To reduce noise, cron only logs meaningful events (e.g., notification sent, error encountered) and avoids logging when no work is performed.
-
-## Best Practices
--   **Idempotency**: All cron tasks must be idempotent (safe to run multiple times).
--   **Locking**: The cron system ensures only one instance is running at a time to prevent race conditions.
--   **Timeout**: Long-running tasks should be broken into batches to avoid exceeding execution limits.
-
----
-**Related Docs:**
-- [ARCHITECTURE_OVERVIEW.md](../ARCHITECTURE_OVERVIEW.md)
-- [URI_TYPE_CRON.md](../architecture/URI_TYPE_CRON.md) - Cron route processing
-- [EXECUTION_ORDER.md](EXECUTION_ORDER.md) - Detailed execution order
-- [NOTIFICATIONS.md](../features/NOTIFICATIONS.md)
-- [SCHEDULES.md](../features/SCHEDULES.md)
-
-**Document Version:** 1.0
-**Last Updated:** 2025-02-08
-**Status:** Accurate and Complete
+Log meaningful events only — task completed, error encountered. Avoid logging when no work was done. Noise makes real problems harder to find.
